@@ -22,7 +22,13 @@ const nextConfig: NextConfig = {
         hostname: 'hostedimages-cdn.aweber-static.com',
         port: '',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'fitnexcommandos.s3.amazonaws.com', // Example S3 bucket hostname
+        port: '',
+        pathname: '/**', // Allows any path within this bucket
+      },
     ],
   },
 };

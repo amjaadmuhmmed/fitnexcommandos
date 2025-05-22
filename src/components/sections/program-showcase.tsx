@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import type { Program } from '@/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,7 +10,7 @@ const programs: Program[] = [
     id: '1',
     title: 'Full Body Blast',
     description: 'A comprehensive workout targeting all major muscle groups for balanced strength and conditioning.',
-    image: 'https://placehold.co/400x300.png',
+    image: 'https://fitnexcommandos.s3.amazonaws.com/fitnexcommandos/Full-body-blast.png', // Updated to HTTPS S3 URL
     icon: HeartPulse,
     dataAiHint: 'running cardio',
   },
@@ -33,7 +34,7 @@ const programs: Program[] = [
     id: '4',
     title: 'HIIT & Power',
     description: 'High-intensity interval training to maximize fat burn and boost metabolic rate effectively.',
-    image: '/HIIT-and-power.png', // Updated to use local image
+    image: '/HIIT-and-power.png', // Uses local image from public folder
     icon: Zap,
     dataAiHint: 'HIIT fitness',
   },
