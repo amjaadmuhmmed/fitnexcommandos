@@ -19,7 +19,7 @@ export function HeroSection() {
               Elevate Your <span className="text-primary">Life</span>.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto md:mx-0">
-              Welcome to FitLife Landing, your ultimate partner in achieving your fitness dreams. Discover personalized programs, expert guidance, and a supportive community.
+              Welcome to Fitnex Commandos, your ultimate partner in achieving your fitness dreams. Discover personalized programs, expert guidance, and a supportive community.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transition-transform hover:scale-105">

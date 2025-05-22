@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="border-t border-border/40 bg-background/95">
       <div className="container py-8 max-w-screen-2xl flex flex-col md:flex-row items-center justify-between text-center md:text-left">
         <p className="text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} FitLife Landing. All rights reserved.
+          &copy; {new Date().getFullYear()} Fitnex Commandos. All rights reserved.
         </p>
         <div className="flex space-x-4 mt-4 md:mt-0">
           <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">

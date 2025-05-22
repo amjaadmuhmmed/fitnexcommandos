@@ -24,7 +24,7 @@ export function Header() {
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
         <Link href="/" className="flex items-center space-x-2 text-lg font-bold text-primary hover:text-primary/80 transition-colors">
           <Dumbbell className="h-7 w-7 text-accent" />
-          <span>FitLife Landing</span>
+          <span>Fitnex Commandos</span>
         </Link>
 
         <nav className="hidden md:flex space-x-6">
@@ -51,7 +51,7 @@ export function Header() {
               <div className="flex flex-col space-y-6">
                 <Link href="/" className="flex items-center space-x-2 text-lg font-bold text-primary" onClick={() => setMobileMenuOpen(false)}>
                   <Dumbbell className="h-7 w-7 text-accent" />
-                  <span>FitLife Landing</span>
+                  <span>Fitnex Commandos</span>
                 </Link>
                 <nav className="flex flex-col space-y-4">
                   {navItems.map((item) => (

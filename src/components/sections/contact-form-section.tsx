@@ -98,7 +98,7 @@ export function ContactFormSection() {
           <div className="relative aspect-[4/3] rounded-lg shadow-xl overflow-hidden order-last md:order-first">
             <Image
               src="https://placehold.co/600x450.png"
-              alt="Contact FitLife"
+              alt="Contact Fitnex Commandos"
               layout="fill"
               objectFit="cover"
               data-ai-hint="gym interior"

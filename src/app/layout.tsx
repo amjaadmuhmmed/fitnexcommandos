@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'FitLife Landing',
+  title: 'Fitnex Commandos',
   description: 'Your journey to a healthier life starts here.',
 };
 

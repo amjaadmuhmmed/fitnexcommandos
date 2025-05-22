@@ -20,7 +20,7 @@ const testimonialsData: Testimonial[] = [
   },
   {
     id: '2',
-    quote: 'The trainers are incredibly knowledgeable and supportive. FitLife helped me achieve goals I never thought possible.',
+    quote: 'The trainers are incredibly knowledgeable and supportive. Fitnex Commandos helped me achieve goals I never thought possible.',
     name: 'Mike P.',
     role: 'Software Engineer',
     avatar: 'https://placehold.co/100x100.png',
@@ -71,7 +71,7 @@ export function TestimonialsSection() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">Client Success Stories</h2>
             <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-              Hear from our satisfied clients who have transformed their lives with FitLife.
+              Hear from our satisfied clients who have transformed their lives with Fitnex Commandos.
             </p>
           </div>
           <div className="relative max-w-2xl mx-auto">
@@ -105,7 +105,7 @@ export function TestimonialsSection() {
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">Client Success Stories</h2>
           <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Hear from our satisfied clients who have transformed their lives with FitLife.
+            Hear from our satisfied clients who have transformed their lives with Fitnex Commandos.
           </p>
         </div>
         
