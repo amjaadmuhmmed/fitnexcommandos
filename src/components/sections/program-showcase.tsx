@@ -10,7 +10,7 @@ const programs: Program[] = [
     id: '1',
     title: 'Full Body Blast',
     description: 'A comprehensive workout targeting all major muscle groups for balanced strength and conditioning.',
-    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/Full-body-blast.png', // Updated to HTTPS S3 URL
+    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/Full-body-blast.png', 
     icon: HeartPulse,
     dataAiHint: 'running cardio',
   },
@@ -18,7 +18,7 @@ const programs: Program[] = [
     id: '2',
     title: 'Strength & Sculpt',
     description: 'Focus on building lean muscle and toning your physique with targeted resistance training.',
-    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/strength-and-sculpt.png', // Corrected typo
+    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/stregth-and-sculpt.png', // Corrected to match provided S3 URL
     icon: Dumbbell,
     dataAiHint: 'weightlifting strength',
   },
@@ -34,7 +34,7 @@ const programs: Program[] = [
     id: '4',
     title: 'HIIT & Power',
     description: 'High-intensity interval training to maximize fat burn and boost metabolic rate effectively.',
-    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/HIIT-and-power.png', // Uses local image from public folder
+    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/HIIT-and-power.png', 
     icon: Zap,
     dataAiHint: 'HIIT fitness',
   },
@@ -84,3 +84,4 @@ export function ProgramShowcase() {
     </section>
   );
 }
+
