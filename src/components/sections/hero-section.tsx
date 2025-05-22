@@ -32,7 +32,7 @@ export function HeroSection() {
           </div>
           <div className="relative aspect-video rounded-lg shadow-2xl overflow-hidden group">
              <Image
-              src="https://placehold.co/600x400.png"
+              src="https://hostedimages-cdn.aweber-static.com/OTE=/original/01e5b4748bad4b879f3d2733428094e4.jpeg"
               alt="Fitness motivation"
               width={600}
               height={400}
