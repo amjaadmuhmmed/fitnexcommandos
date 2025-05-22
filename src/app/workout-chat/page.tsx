@@ -18,11 +18,6 @@ type Message = {
   sender: 'user' | 'ai' | 'systemError';
   text: string;
   isLoading?: boolean;
-  meta?: {
-    fitnessGoals?: string;
-    currentFitnessLevel?: string;
-    availableTime?: string;
-  };
 };
 
 function WorkoutChatContent() {
@@ -30,7 +25,7 @@ function WorkoutChatContent() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isLoadingFollowUp, setIsLoadingFollowUp] = useState(false);
-  const [initialParams, setInitialParams] = useState<GenerateWorkoutPlanInput | null>(null);
+  const [initialParams, setInitialParams] = useState<Omit<GenerateWorkoutPlanInput, 'conversationHistory'> | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -48,25 +43,32 @@ function WorkoutChatContent() {
       const params = { fitnessGoals, currentFitnessLevel, availableTime };
       setInitialParams(params);
       
-      const userMessageId = `user-${Date.now()}`;
-      const aiLoadingMessageId = `ai-loading-${Date.now() + 1}`;
+      const userMessageId = `user-init-${Date.now()}`;
+      const aiLoadingMessageId = `ai-loading-init-${Date.now() + 1}`;
 
-      setMessages([
-        {
-          id: userMessageId,
-          sender: 'user',
-          text: `My details:\nGoals: ${fitnessGoals}\nLevel: ${currentFitnessLevel}\nTime: ${availableTime}`,
-          meta: params,
-        },
-        {
-          id: aiLoadingMessageId,
-          sender: 'ai',
-          text: 'Generating your initial workout plan...',
-          isLoading: true,
-        },
-      ]);
+      const initialUserMessage = {
+        id: userMessageId,
+        sender: 'user' as const,
+        text: `My details for a new workout plan:\nGoals: ${fitnessGoals}\nLevel: ${currentFitnessLevel}\nTime: ${availableTime}`,
+      };
+      
+      const initialAiLoadingMessage = {
+        id: aiLoadingMessageId,
+        sender: 'ai' as const,
+        text: 'Generating your initial workout plan...',
+        isLoading: true,
+      };
 
-      generateWorkoutPlan(params)
+      setMessages([initialUserMessage, initialAiLoadingMessage]);
+
+      const planInput: GenerateWorkoutPlanInput = {
+        ...params,
+        conversationHistory: [ // Send only the user's initial request for the first call
+          { sender: initialUserMessage.sender, text: initialUserMessage.text }
+        ] 
+      };
+
+      generateWorkoutPlan(planInput)
         .then(result => {
           setMessages(prevMessages =>
             prevMessages.map(msg =>
@@ -82,7 +84,7 @@ function WorkoutChatContent() {
             prevMessages.map(msg =>
               msg.id === aiLoadingMessageId
                 ? {
-                    id: `error-${Date.now()}`,
+                    id: `error-init-${Date.now()}`,
                     sender: 'systemError',
                     text: "Failed to generate workout plan. The AI might be busy or an unexpected error occurred. Please try again later or go back and adjust your inputs.",
                     isLoading: false,
@@ -101,33 +103,35 @@ function WorkoutChatContent() {
       ]);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]); // Only run once on initial load based on searchParams
+  }, [searchParams]); 
 
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newMessage.trim() || isLoadingFollowUp || !initialParams) return;
 
     const userMessageText = newMessage.trim();
-    setNewMessage('');
-    setIsLoadingFollowUp(true);
-
     const userMessageId = `user-${Date.now()}`;
     const aiFollowUpLoadingMessageId = `ai-loading-${Date.now() + 1}`;
 
-    setMessages(prevMessages => [
-      ...prevMessages,
+    const updatedMessages: Message[] = [
+      ...messages,
       { id: userMessageId, sender: 'user', text: userMessageText },
       { id: aiFollowUpLoadingMessageId, sender: 'ai', text: 'Thinking...', isLoading: true },
-    ]);
+    ];
+    setMessages(updatedMessages);
+    setNewMessage('');
+    setIsLoadingFollowUp(true);
 
     try {
-      // For follow-up, we use the new message as "fitnessGoals" and reuse other initial params.
-      // This is a simplification; a true chat AI would take conversation history.
+      const conversationHistoryForAPI = updatedMessages
+        .filter(msg => msg.id !== aiFollowUpLoadingMessageId) // Exclude the current AI loading message
+        .map(msg => ({ sender: msg.sender, text: msg.text }));
+
       const followUpInput: GenerateWorkoutPlanInput = {
-        fitnessGoals: userMessageText, // User's new query
-        currentFitnessLevel: initialParams.currentFitnessLevel,
-        availableTime: initialParams.availableTime,
+        ...initialParams, // Send initial parameters for context
+        conversationHistory: conversationHistoryForAPI,
       };
+      
       const result = await generateWorkoutPlan(followUpInput);
       setMessages(prevMessages =>
         prevMessages.map(msg =>
@@ -188,7 +192,7 @@ function WorkoutChatContent() {
                   "p-3 rounded-lg shadow-sm max-w-[calc(100%-3.5rem)] break-words",
                   msg.sender === 'user' ? "bg-primary text-primary-foreground" :
                   msg.sender === 'ai' ? "bg-secondary text-secondary-foreground" :
-                  "bg-destructive/10 text-destructive-foreground" 
+                  "bg-destructive/10 text-destructive-foreground border border-destructive/50" 
                 )}
               >
                 {msg.isLoading ? (
@@ -197,7 +201,7 @@ function WorkoutChatContent() {
                     <Skeleton className="h-4 w-full bg-muted-foreground/30" />
                   </div>
                 ) : (
-                  <pre className="whitespace-pre-wrap text-sm font-sans bg-transparent p-0 overflow-x-auto">
+                  <pre className="whitespace-pre-wrap text-sm font-sans bg-transparent p-0 m-0 overflow-x-auto">
                     {msg.text}
                   </pre>
                 )}
@@ -211,24 +215,35 @@ function WorkoutChatContent() {
           ))}
           <div ref={messagesEndRef} />
         </CardContent>
-        <CardFooter className="border-t p-4">
+        <CardFooter className="border-t p-4 sticky bottom-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
           <form onSubmit={handleSendMessage} className="flex w-full items-start space-x-2">
             <Textarea
               placeholder="Ask a follow-up question or request a modification..."
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              rows={2}
-              className="flex-1 resize-none"
-              disabled={isLoadingFollowUp || !initialParams}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey && !isLoadingFollowUp && newMessage.trim() && initialParams) {
+                  e.preventDefault();
+                  handleSendMessage(e as any); // Cast needed as onKeyDown event is not form event
+                }
+              }}
+              rows={1} // Start with 1 row, auto-expands with ShadCN textarea
+              className="flex-1 resize-none min-h-[40px]"
+              disabled={isLoadingFollowUp || !initialParams || messages.some(m => m.isLoading)}
             />
-            <Button type="submit" size="icon" disabled={isLoadingFollowUp || !newMessage.trim() || !initialParams}>
+            <Button 
+              type="submit" 
+              size="icon" 
+              disabled={isLoadingFollowUp || !newMessage.trim() || !initialParams || messages.some(m => m.isLoading)}
+              className="h-10 w-10"
+            >
               <Send className="h-5 w-5" />
               <span className="sr-only">Send message</span>
             </Button>
           </form>
         </CardFooter>
-         <div className="text-center bg-background py-4 border-t">
-            <Button variant="outline" asChild>
+         <div className="text-center bg-background py-3 border-t">
+            <Button variant="outline" asChild size="sm">
                 <Link href="/#workout-ai">Create a New Plan</Link>
             </Button>
         </div>
@@ -267,11 +282,11 @@ function WorkoutChatLoadingSkeleton() {
             </div>
           </div>
         </CardContent>
-        <CardFooter className="border-t p-4">
+        <CardFooter className="border-t p-4 sticky bottom-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
            <Skeleton className="h-10 w-full bg-muted" /> {/* Input area skeleton */}
         </CardFooter>
-         <div className="text-center bg-background py-4 border-t">
-            <Skeleton className="h-10 w-40 mx-auto bg-muted" />
+         <div className="text-center bg-background py-3 border-t">
+            <Skeleton className="h-9 w-36 mx-auto bg-muted" />
         </div>
       </Card>
     </div>
@@ -286,4 +301,3 @@ export default function WorkoutChatPage() {
   );
 }
 
-    
