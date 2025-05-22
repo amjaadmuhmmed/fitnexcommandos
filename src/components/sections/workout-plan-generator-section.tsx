@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { generateWorkoutPlan, type GenerateWorkoutPlanInput } from '@/ai/flows/generate-workout-plan';
+// GenerateWorkoutPlanInput type is still useful for form values.
+import type { GenerateWorkoutPlanInput } from '@/ai/flows/generate-workout-plan';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -22,12 +24,12 @@ const formSchema = z.object({
   availableTime: z.string().min(5, { message: "Please specify your available time, e.g., '30 mins, 3x a week'." }),
 });
 
-type WorkoutFormValues = z.infer<typeof formSchema>;
+type WorkoutFormValues = z.infer<typeof formSchema>; // This is equivalent to GenerateWorkoutPlanInput
 
 export function WorkoutPlanGeneratorSection() {
   const [isLoading, setIsLoading] = useState(false);
-  const [workoutPlan, setWorkoutPlan] = useState<string | null>(null);
   const { toast } = useToast();
+  const router = useRouter(); 
 
   const form = useForm<WorkoutFormValues>({
     resolver: zodResolver(formSchema),
@@ -40,24 +42,27 @@ export function WorkoutPlanGeneratorSection() {
 
   const onSubmit: SubmitHandler<WorkoutFormValues> = async (data) => {
     setIsLoading(true);
-    setWorkoutPlan(null);
+
     try {
-      const result = await generateWorkoutPlan(data as GenerateWorkoutPlanInput); // Type assertion if schema is identical
-      setWorkoutPlan(result.workoutPlan);
-      toast({
-        title: "Workout Plan Generated!",
-        description: "Your personalized workout plan is ready below.",
-      });
+      const queryParams = new URLSearchParams({
+        fitnessGoals: data.fitnessGoals,
+        currentFitnessLevel: data.currentFitnessLevel,
+        availableTime: data.availableTime,
+      }).toString();
+      
+      router.push(`/workout-chat?${queryParams}`);
+      // A toast here could say "Redirecting to chat..." but it might be too quick.
+      // Success/error of plan generation will be handled on the chat page.
     } catch (error) {
-      console.error("Error generating workout plan:", error);
+      console.error("Error redirecting to chat page:", error);
       toast({
         title: "Error",
-        description: "Failed to generate workout plan. Please try again.",
+        description: "Failed to navigate to the workout planner. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
+      setIsLoading(false); 
     }
+    // No need to setIsLoading(false) here as the component will unmount on successful navigation.
   };
 
   return (
@@ -67,11 +72,11 @@ export function WorkoutPlanGeneratorSection() {
           <Sparkles className="h-12 w-12 text-accent mx-auto mb-4" />
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">AI Powered Workout Planner</h2>
           <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Get a personalized workout plan tailored to your goals, fitness level, and available time using our smart AI.
+            Fill in your details, and our AI will generate a personalized workout plan for you on our chat page.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 items-start">
+        <div className="max-w-lg mx-auto"> {/* Centering the form card */}
           <Card className="shadow-lg rounded-lg">
             <CardHeader>
               <CardTitle>Create Your Plan</CardTitle>
@@ -134,12 +139,12 @@ export function WorkoutPlanGeneratorSection() {
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Generating...
+                        Processing...
                       </>
                     ) : (
                        <>
                         <Sparkles className="mr-2 h-4 w-4" />
-                        Generate Plan
+                        Generate Plan & Chat
                        </>
                     )}
                   </Button>
@@ -147,32 +152,6 @@ export function WorkoutPlanGeneratorSection() {
               </form>
             </Form>
           </Card>
-
-          {isLoading && (
-            <Card className="shadow-lg rounded-lg animate-pulse">
-              <CardHeader>
-                <CardTitle>Your Personalized Plan</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="h-4 bg-muted rounded w-3/4"></div>
-                <div className="h-4 bg-muted rounded w-full"></div>
-                <div className="h-4 bg-muted rounded w-full"></div>
-                <div className="h-4 bg-muted rounded w-1/2"></div>
-              </CardContent>
-            </Card>
-          )}
-
-          {workoutPlan && !isLoading && (
-            <Card className="shadow-lg rounded-lg">
-              <CardHeader>
-                <CardTitle>Your Personalized Plan</CardTitle>
-                <CardDescription>Here is your AI-generated workout routine:</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <pre className="whitespace-pre-wrap text-sm bg-secondary/50 p-4 rounded-md font-sans">{workoutPlan}</pre>
-              </CardContent>
-            </Card>
-          )}
         </div>
       </div>
     </section>
