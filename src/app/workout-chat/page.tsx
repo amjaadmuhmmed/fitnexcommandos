@@ -52,8 +52,8 @@ function WorkoutChatContent() {
   }, [searchParams]);
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12 flex flex-col items-center min-h-[calc(100vh-8rem)]"> {/* Adjust min-height as needed */}
-      <Card className="w-full max-w-3xl shadow-xl rounded-lg">
+    <div className="container mx-auto px-4 py-8 md:py-12 flex flex-col items-center flex-1 min-h-[calc(100vh-4rem)]">
+      <Card className="w-full max-w-3xl shadow-xl rounded-lg flex flex-col flex-1">
         <CardHeader className="text-center border-b pb-4">
           <Sparkles className="h-10 w-10 text-accent mx-auto mb-3" />
           <CardTitle className="text-2xl md:text-3xl font-bold text-foreground">Your AI Workout Chat</CardTitle>
@@ -61,7 +61,7 @@ function WorkoutChatContent() {
             Here's your personalized workout plan from our AI Trainer.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6 p-4 md:p-6 max-h-[calc(100vh-20rem)] overflow-y-auto">
+        <CardContent className="space-y-6 p-4 md:p-6 flex-1 overflow-y-auto">
           {initialMessage && (
             <div className="flex items-start space-x-3">
               <Avatar className="h-10 w-10 border-2 border-primary shrink-0">
@@ -123,7 +123,7 @@ function WorkoutChatContent() {
             </div>
           )}
            {!isLoading && (
-             <div className="mt-6 text-center">
+             <div className="mt-6 text-center sticky bottom-0 bg-background py-4"> {/* Made button area sticky */}
                 <Button variant="outline" asChild>
                     <Link href="/#workout-ai">Create a New Plan</Link>
                 </Button>
@@ -138,14 +138,14 @@ function WorkoutChatContent() {
 // Fallback component for Suspense
 function WorkoutChatLoadingSkeleton() {
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12 flex flex-col items-center min-h-[calc(100vh-8rem)]">
-      <Card className="w-full max-w-3xl shadow-xl rounded-lg">
+    <div className="container mx-auto px-4 py-8 md:py-12 flex flex-col items-center flex-1 min-h-[calc(100vh-4rem)]">
+      <Card className="w-full max-w-3xl shadow-xl rounded-lg flex flex-col flex-1">
         <CardHeader className="text-center border-b pb-4">
            <Skeleton className="h-10 w-10 rounded-full mx-auto mb-3 bg-muted" />
            <Skeleton className="h-7 w-1/2 mx-auto mb-2 bg-muted" />
            <Skeleton className="h-4 w-3/4 mx-auto bg-muted" />
         </CardHeader>
-        <CardContent className="space-y-6 p-4 md:p-6">
+        <CardContent className="space-y-6 p-4 md:p-6 flex-1 overflow-y-auto">
           {/* User message skeleton */}
           <div className="flex items-start space-x-3">
             <Skeleton className="h-10 w-10 rounded-full shrink-0 bg-muted" />
@@ -166,7 +166,7 @@ function WorkoutChatLoadingSkeleton() {
               <Skeleton className="h-4 w-5/6 bg-muted" />
             </div>
           </div>
-           <div className="mt-6 text-center">
+           <div className="mt-6 text-center sticky bottom-0 bg-background py-4">
              <Skeleton className="h-10 w-40 mx-auto bg-muted" />
             </div>
         </CardContent>
