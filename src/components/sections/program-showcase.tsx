@@ -18,7 +18,7 @@ const programs: Program[] = [
     id: '2',
     title: 'Strength & Sculpt',
     description: 'Focus on building lean muscle and toning your physique with targeted resistance training.',
-    image: 'https://placehold.co/400x300.png',
+    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/strength-and-sculpt.png', // Corrected typo
     icon: Dumbbell,
     dataAiHint: 'weightlifting strength',
   },
@@ -26,7 +26,7 @@ const programs: Program[] = [
     id: '3',
     title: 'Yoga & Mindfulness',
     description: 'Enhance flexibility, balance, and mental clarity through guided yoga and meditation practices.',
-    image: 'https://placehold.co/400x300.png',
+    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/Yoga-and-mindfulness.png',
     icon: Brain,
     dataAiHint: 'yoga meditation',
   },
@@ -34,7 +34,7 @@ const programs: Program[] = [
     id: '4',
     title: 'HIIT & Power',
     description: 'High-intensity interval training to maximize fat burn and boost metabolic rate effectively.',
-    image: '/HIIT-and-power.png', // Uses local image from public folder
+    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/HIIT-and-power.png', // Uses local image from public folder
     icon: Zap,
     dataAiHint: 'HIIT fitness',
   },
