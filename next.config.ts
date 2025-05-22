@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'fitnexcommandos.s3.amazonaws.com', // Example S3 bucket hostname
+        hostname: 'fitnexcommandos.s3.eu-north-1.amazonaws.com', // Corrected S3 bucket hostname
         port: '',
         pathname: '/**', // Allows any path within this bucket
       },

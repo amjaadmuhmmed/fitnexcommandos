@@ -10,7 +10,7 @@ const programs: Program[] = [
     id: '1',
     title: 'Full Body Blast',
     description: 'A comprehensive workout targeting all major muscle groups for balanced strength and conditioning.',
-    image: 'https://fitnexcommandos.s3.amazonaws.com/fitnexcommandos/Full-body-blast.png', // Updated to HTTPS S3 URL
+    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/Full-body-blast.png', // Updated to HTTPS S3 URL
     icon: HeartPulse,
     dataAiHint: 'running cardio',
   },
