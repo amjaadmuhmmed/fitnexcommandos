@@ -4,14 +4,14 @@
 import { useEffect, useState, Suspense, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { generateWorkoutPlan, type GenerateWorkoutPlanInput } from '../../ai/flows/generate-workout-plan';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '../../components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/avatar';
 import { Sparkles, User, Bot, Send, AlertCircle } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Skeleton } from '../../components/ui/skeleton';
+import { Button } from '../../components/ui/button';
+import { Textarea } from '../../components/ui/textarea';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 
 type Message = {
   id: string;
