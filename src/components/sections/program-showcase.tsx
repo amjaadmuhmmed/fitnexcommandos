@@ -1,8 +1,8 @@
 
 import Image from 'next/image';
-import type { Program } from '@/types';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import type { Program } from '../../types';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
 import { Dumbbell, HeartPulse, Brain, Zap } from 'lucide-react'; // Zap for HIIT or Energy
 
 const programs: Program[] = [
@@ -34,7 +34,7 @@ const programs: Program[] = [
     id: '4',
     title: 'HIIT & Power',
     description: 'High-intensity interval training to maximize fat burn and boost metabolic rate effectively.',
-    image: 'https://fitnexcommandos.s3.eu-north-1.amazonaws.com/fitnexcommandos/HIIT-and-power.png', // Uses local image from public folder
+    image: '/HIIT-and-power.png', // Uses local image from public folder
     icon: Zap,
     dataAiHint: 'HIIT fitness',
   },

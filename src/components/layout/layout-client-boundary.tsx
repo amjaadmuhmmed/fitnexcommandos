@@ -3,9 +3,9 @@
 
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
-import { Toaster } from '@/components/ui/toaster';
+import { Header } from './header';
+import { Footer } from './footer';
+import { Toaster } from '../ui/toaster';
 
 export default function LayoutClientBoundary({ children }: { children: ReactNode }) {
   const pathname = usePathname();

@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import type { Testimonial } from '@/types';
-import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import type { Testimonial } from '../../types';
+import { Card, CardContent } from '../ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Button } from '../ui/button';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 
 const testimonialsData: Testimonial[] = [
   {

@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import type { BlogPost } from '@/types';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import type { BlogPost } from '../../types';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
 import Link from 'next/link';
 import { Newspaper, Utensils, Bike } from 'lucide-react';
 

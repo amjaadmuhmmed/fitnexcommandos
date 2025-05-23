@@ -6,14 +6,14 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 // GenerateWorkoutPlanInput type is still useful for form values.
-import type { GenerateWorkoutPlanInput } from '@/ai/flows/generate-workout-plan';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
+import type { GenerateWorkoutPlanInput } from '../../ai/flows/generate-workout-plan';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+import { Input } from '../ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Textarea } from '../ui/textarea';
+import { useToast } from '../../hooks/use-toast';
 import { Loader2, Sparkles } from 'lucide-react';
 
 const formSchema = z.object({

@@ -10,7 +10,7 @@
  * - GenerateWorkoutPlanOutput - The return type for the workout plan generation/conversation.
  */
 
-import {ai} from '@/ai/genkit';
+import {ai} from '../genkit';
 import {z} from 'genkit';
 
 const ConversationMessageSchema = z.object({
