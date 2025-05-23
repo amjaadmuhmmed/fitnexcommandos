@@ -3,7 +3,7 @@
 
 import { useEffect, useState, Suspense, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { generateWorkoutPlan, type GenerateWorkoutPlanInput } from '@/ai/flows/generate-workout-plan';
+import { generateWorkoutPlan, type GenerateWorkoutPlanInput } from '../../ai/flows/generate-workout-plan';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Sparkles, User, Bot, Send, AlertCircle } from 'lucide-react';
@@ -63,7 +63,7 @@ function WorkoutChatContent() {
 
       const planInput: GenerateWorkoutPlanInput = {
         ...params,
-        conversationHistory: [ // Send only the user's initial request for the first call
+        conversationHistory: [ 
           { sender: initialUserMessage.sender, text: initialUserMessage.text }
         ] 
       };
@@ -124,11 +124,11 @@ function WorkoutChatContent() {
 
     try {
       const conversationHistoryForAPI = updatedMessages
-        .filter(msg => msg.id !== aiFollowUpLoadingMessageId) // Exclude the current AI loading message
+        .filter(msg => msg.id !== aiFollowUpLoadingMessageId) 
         .map(msg => ({ sender: msg.sender, text: msg.text }));
 
       const followUpInput: GenerateWorkoutPlanInput = {
-        ...initialParams, // Send initial parameters for context
+        ...initialParams, 
         conversationHistory: conversationHistoryForAPI,
       };
       
@@ -224,10 +224,10 @@ function WorkoutChatContent() {
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey && !isLoadingFollowUp && newMessage.trim() && initialParams) {
                   e.preventDefault();
-                  handleSendMessage(e as any); // Cast needed as onKeyDown event is not form event
+                  handleSendMessage(e as any); 
                 }
               }}
-              rows={1} // Start with 1 row, auto-expands with ShadCN textarea
+              rows={1} 
               className="flex-1 resize-none min-h-[40px]"
               disabled={isLoadingFollowUp || !initialParams || messages.some(m => m.isLoading)}
             />
